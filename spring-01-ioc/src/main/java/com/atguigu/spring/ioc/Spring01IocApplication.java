@@ -1,19 +1,23 @@
 package com.atguigu.spring.ioc;
 
 import ch.qos.logback.core.CoreConstants;
-import com.atguigu.spring.ioc.bean.Car;
-import com.atguigu.spring.ioc.bean.Cat;
-import com.atguigu.spring.ioc.bean.Dog;
-import com.atguigu.spring.ioc.bean.Person;
+import com.atguigu.spring.ioc.bean.*;
 import com.atguigu.spring.ioc.controller.UserController;
+import com.atguigu.spring.ioc.dao.DeliveryDao;
 import com.atguigu.spring.ioc.dao.UserDao;
 import com.atguigu.spring.ioc.service.UserService;
-import com.sun.tools.javac.Main;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.context.support.FileSystemXmlApplicationContext;
 import org.springframework.core.env.ConfigurableEnvironment;
+import org.springframework.util.ResourceUtils;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.sql.SQLOutput;
 import java.util.Map;
 
@@ -26,7 +30,71 @@ import java.util.Map;
 @SpringBootApplication
 public class Spring01IocApplication {
 
+
+    /**
+     * 测试生命周期
+     * @param args
+     */
     public static void main(String[] args) {
+
+        ConfigurableApplicationContext ioc  = SpringApplication.run(Spring01IocApplication.class,args);
+        System.out.println("===============ioc容器创建完成=====================");
+
+        User bean = ioc.getBean(User.class);
+        System.out.println("运行：" + bean);
+
+        // 测试结果是： 创建组件->构造器->@Autowired属性注入->afterPropertiesSet属性设置之后
+        //           ->init指定初始化方法(通过@Bean)->运行中(这儿你干你的方法)
+        //           ->DisposableBean运行->destory指定销毁方法(通过@Bean)->容器结束
+
+
+    }
+
+
+
+
+
+
+
+
+
+    /**
+     * 原生方式创建、使用Spring容器
+     * @param args
+     */
+
+    public static void test13(String[] args) {
+        // 1、自己创建：类路径下找配置
+        ClassPathXmlApplicationContext ioc = new ClassPathXmlApplicationContext("classpath:ioc.xml");
+
+        // 文件系统：C,d盘中找配置
+        new FileSystemXmlApplicationContext();
+
+        // 2.底层组件
+        for(String definitionName : ioc.getBeanDefinitionNames()) {
+            System.out.println("definitionName = " + definitionName);
+        }
+
+        // 3.获取组件
+        Map<String, Person> type = ioc.getBeansOfType(Person.class);
+        System.out.println("type = " + type);
+
+    }
+
+
+
+    public static void test12(String[] args) {
+        ConfigurableApplicationContext ioc  = SpringApplication.run(Spring01IocApplication.class,args);
+        System.out.println("===============容器创建完成=====================");
+
+        DeliveryDao dao = ioc.getBean(DeliveryDao.class);
+        dao.saveDelivery();
+
+
+
+    }
+
+    public static void test11(String[] args) throws IOException {
         /**
          *
          */
@@ -39,6 +107,15 @@ public class Spring01IocApplication {
 
         Cat bean1 = ioc.getBean(Cat.class);
         System.out.println("bean1" + bean1);
+
+        // 用ResourceUtiles获取资源
+        File file = ResourceUtils.getFile("classpath:abc.jpg");
+        System.out.println("file. = " + file);
+
+        int available = new FileInputStream(file).available();
+        System.out.println("available = " + available);
+
+
     }
 
     public static void test10(String[] args) {
