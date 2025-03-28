@@ -43,8 +43,8 @@ public class Spring01IocApplication {
         User bean = ioc.getBean(User.class);
         System.out.println("运行：" + bean);
 
-        // 测试结果是： 创建组件->构造器->@Autowired属性注入->afterPropertiesSet属性设置之后
-        //           ->init指定初始化方法(通过@Bean)->运行中(这儿你干你的方法)
+        // 测试结果是： 创建组件->构造器->@Autowired属性注入->postProcessBeforeInitialization初始化之前后置处理->PostConstruct由annotation来声明方法->afterPropertiesSet属性设置之后
+        //           ->init指定初始化方法(通过@Bean)->postProcessAfterInitialization初始化之后后置处理 ->运行中(这儿你干你的方法)->PreDestroy由annotation来声明方法
         //           ->DisposableBean运行->destory指定销毁方法(通过@Bean)->容器结束
 
 

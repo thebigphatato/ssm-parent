@@ -1,10 +1,14 @@
 package com.atguigu.spring.ioc.bean;
 
+import jakarta.annotation.PostConstruct;
+import jakarta.annotation.PreDestroy;
 import lombok.Data;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+
+// BeanPostProcessor : 外挂修改器
 
 /**
  * ClassName: User
@@ -31,6 +35,16 @@ public class User implements InitializingBean, DisposableBean {//InitializingBea
 
     public User() {
         System.out.println("User 构造器...");
+    }
+
+    @PostConstruct //构造器之后
+    public void postConstruct() {
+        System.out.println("postConstruct....");
+    }
+
+    @PreDestroy //销毁之前
+    public void preDestroy() {
+        System.out.println("preDestroy....");
     }
 
     public void initUser() {
