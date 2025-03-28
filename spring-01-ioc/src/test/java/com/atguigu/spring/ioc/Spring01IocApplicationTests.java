@@ -9,5 +9,5 @@ class Spring01IocApplicationTests {
     @Test
     void contextLoads() {
     }
-
+    // 测试记得用@Autowired把容器添加到组件中去
 }
