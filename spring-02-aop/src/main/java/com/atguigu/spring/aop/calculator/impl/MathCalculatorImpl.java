@@ -44,6 +44,7 @@ public class MathCalculatorImpl implements MathCalculator {
 
     @Override
     public int div(int a, int b) {
+        System.out.println("目标方法执行.......");
         int result = a / b;
         return result;
     }
