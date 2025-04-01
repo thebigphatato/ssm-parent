@@ -19,6 +19,7 @@ import java.util.Arrays;
 public class DynamicProxy {
 
     //获取目标对象的代理对象
+    //测试一下git ssh的push
 
     public static Object getProxyInstance(Object target) {
         return Proxy.newProxyInstance(
