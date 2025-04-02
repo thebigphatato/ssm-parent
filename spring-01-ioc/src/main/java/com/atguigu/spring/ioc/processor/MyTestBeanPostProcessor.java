@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
  * @Create 2025/3/28 10:28
  * @Version 19
  */
+
 @Component //拦截所有Bean的后置处理器
 public class MyTestBeanPostProcessor implements BeanPostProcessor {
 

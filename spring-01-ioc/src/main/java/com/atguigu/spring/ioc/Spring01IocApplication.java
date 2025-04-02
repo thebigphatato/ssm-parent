@@ -47,6 +47,17 @@ public class Spring01IocApplication {
         //           ->init指定初始化方法(通过@Bean)->postProcessAfterInitialization初始化之后后置处理 ->运行中(这儿你干你的方法)->PreDestroy由annotation来声明方法
         //           ->DisposableBean运行->destory指定销毁方法(通过@Bean)->容器结束
 
+        /**
+         * @Autowired是如何实现的？
+         * 1.专门有一个处理@Autowired注解的AutowiredAnnotationBeanPostProcessor
+         * 2.每个Bean创建以后，会调用BeanPostProcessor的postProcessBeforeInitialization方法
+         * 3.postProcessBeforeInitialization里面就会利用反射，得到当前Bean的所有属性，利用反射，得到Bean属性上标注的素有注解，看有没有@Autowired注解
+         * 4、如果有，去容器中找到这个属性对应的组件(按类型，按名字)找到。
+         */
+
+
+
+
 
     }
 

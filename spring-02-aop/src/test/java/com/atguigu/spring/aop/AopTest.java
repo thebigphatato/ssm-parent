@@ -38,7 +38,8 @@ public class AopTest {
 
     @Test
     void test02() {
-        mathCalculator.div(10,0);
+//        mathCalculator.div(10,3);
+        mathCalculator.div(10,2);// 除以0它会显示出对应的异常信息
     }
 
 
