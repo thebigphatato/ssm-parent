@@ -12,9 +12,9 @@ import java.math.BigDecimal;
 
 @Data
 public class Account {
-    private int id;
+    private Integer id;
     private String username;
-    private int age;
+    private Integer age;
     private BigDecimal balance;// BigDecimal比double、float好的原因是没有精度问题。
 
 
