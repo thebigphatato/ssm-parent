@@ -6,6 +6,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.math.BigDecimal;
 
 /**
@@ -28,9 +30,9 @@ public class AccountDaoTest {
 
     //测试结账
     @Test
-    void testCheckout() {
+    void testCheckout() throws InterruptedException, IOException {
 //        userService.checkout("zhangsan",1,3);
-        userService.checkout("wangwu",2,2);
+        userService.checkout("wangwu",3,4);
 
     }
 
