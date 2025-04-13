@@ -37,7 +37,7 @@ public class AccountDaoTest {
     }
 
     @Test
-    void testUpdateBalanceByusername() {
+    void testUpdateBalanceByusername() throws InterruptedException {
         accountDao.updateBalanceByUsername("zhangsan", BigDecimal.valueOf(100.0));
     }
 }
