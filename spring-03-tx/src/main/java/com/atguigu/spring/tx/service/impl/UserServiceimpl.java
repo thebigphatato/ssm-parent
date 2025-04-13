@@ -49,8 +49,10 @@ public class UserServiceimpl implements UserService {
      *              completeTransactionAfterThrowing(txInfo, ex);   在这个时候回滚
      *              commitTransactionAfterReturning(txInfo);    在这个时候提交
      *
-     * 2、propagation：传播行为
+     * 2、propagation：传播行为：
+     *
      * 3、isolation：隔离级别
+     *
      * 4、timeout(同timeoutSpring)：超时时间：事务超时以秒为单位
      *      一旦超过约定时间，事务就会回滚
      *      超时时间是指：从方法开始，到最后一次数据库操作结束的时间
@@ -68,16 +70,53 @@ public class UserServiceimpl implements UserService {
      *      【不回滚 = 编译时异常 +指定不回滚异常】
      *
      *
+     *
+     * 场景：用户结账，炸了以后，金额扣减回滚，库存不回滚
+     * 注意：一定关注异常的传播链
+     * 实现：
+     *      checkout() {
+     *          //自己的操作
+     *          扣减金额； //REQUIRED
+     *          扣减库存； //REQUIRES_NEW
+     *          int i = 10/0;
+     *      }
+     *
+     *  A{
+     *      B() {   //REQUIRED
+     *          F();//REQUIRES_NEW
+     *          G();//REQUIRED
+     *          H();//REQUIRES_NEW
+     *      }
+     *      C() {   //REQUIRES_NEW
+     *          I();//REQUIRES_NEW
+     *          J();//REQUIRED      // 点位3：10/0； I,F,H = OK
+     *      }
+     *      D() {   //REQUIRES_NEW
+     *          K();//REQUIRES_NEW
+     *          L();//REQUIRES_NEW // 点位2：10/0；K,F,H,C(I,J) = ok,代码走不到E那去,剩下炸
+     *      }
+     *      E() {   //REQUIRED
+     *          M();//REQUIRED
+     *          // 点位3：10/0;F,H,C(I,J),D(K,L) = OK
+     *          N();//REQUIRES_NEW
+     *      }
+     *
+     *      int i = 10/0;   //点位1：C(I,J),D(K,L),F.H,N = OK
+     *  }
+     *
+     *
      * 用户结账
      * @param username 用户名
      * @param bookId   图书id
      * @param buyNum   购买数量
+     * 传播行为：参数设置项属性：如果小事务和大事务共用一个事务，小事务按照大事务的设置项来，小事务自己的设置失效
+     *
      */
     @Transactional(timeout = 3,readOnly = false,
             rollbackFor = {IOException.class,FileNotFoundException.class},
-            rollbackForClassName = "java.lang.Exception",
-            noRollbackFor = {ArithmeticException.class}) // 这个任务限时3秒完成，超过3秒，事务回滚,其次是写timeoutSpring一样的
-    //给下面这个方法加事务的特性
+            rollbackForClassName = "java.lang.Exception") // 这个任务限时3秒完成，超过3秒，事务回滚,其次是写timeoutSpring一样的
+    //传播行为：参数设置项属性：如果小事务和大事务共用一个事务，小事务按照大事务的设置项来
+    //给下面这个方法加事务的特性 ; noRollbackFor = {ArithmeticException.class}
     @Override
     public void checkout(String username, Integer bookId, Integer buyNum) throws InterruptedException, IOException {
         //1、查询图书信息
