@@ -148,7 +148,7 @@ public class RequestTestController {
     @RequestMapping("/handle08")
     public String handle08(Person person,
                            @RequestParam("headerImg") MultipartFile headerImgfile,
-                           @RequestParam("lifeImg") MultipartFile[] lifeImgFiles) throws IOException {
+                           @RequestPart("lifeImg") MultipartFile[] lifeImgFiles) throws IOException {
         //1、获取原始文件名
         String originalFilename = headerImgfile.getOriginalFilename();
         //2、获取文件大小
