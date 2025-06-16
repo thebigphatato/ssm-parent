@@ -26,7 +26,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Retention(RUNTIME)
 public @interface Gender {
 
-    String message() default "{jakarta.validation.constraints.NotNull.message}";
+    String message( ) default "{jakarta.validation.constraints.NotNull.message}";
 
     Class<?>[] groups() default { };
 

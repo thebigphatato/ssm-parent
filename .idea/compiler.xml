@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile default="true" name="Default" enabled="true" />
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="springmvc-02-best-practice" />
+        <module name="springmvc-restful-crud" />
+        <module name="spring-01-ioc" />
+        <module name="spring-03-tx" />
+      </profile>
+      <profile name="Annotation profile for ssm-parent" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="false">
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/unknown/lombok-unknown.jar" />
+        </processorPath>
+        <module name="spring-02-aop" />
+        <module name="springmvc-01-helloworld" />
+        <module name="mybatis-01-helloworld" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="mybatis-01-helloword01" target="17" />
+      <module name="mybatis-01-helloword01 (1)" target="17" />
+      <module name="untitled" target="19" />
+    </bytecodeTargetLevel>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="mybatis-01-helloword01" options="-parameters" />
+      <module name="mybatis-01-helloword01 (1)" options="-parameters" />
+      <module name="mybatis-01-helloworld" options="-parameters" />
+      <module name="spring-01-ioc" options="-parameters" />
+      <module name="spring-02-aop" options="-parameters" />
+      <module name="spring-03-tx" options="-parameters" />
+      <module name="springmvc-01-helloworld" options="-parameters" />
+      <module name="springmvc-02-best-practice" options="-parameters" />
+      <module name="springmvc-restful-crud" options="-parameters" />
+    </option>
+  </component>
+</project>
