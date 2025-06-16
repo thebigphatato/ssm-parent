@@ -3,15 +3,27 @@ package com.atguigu.practice.controller;
 import com.atguigu.practice.bean.Employee;
 import com.atguigu.practice.common.R;
 import com.atguigu.practice.service.EmployeeService;
+import com.atguigu.practice.vo.req.EmployeeAddVo;
+import com.atguigu.practice.vo.req.EmployeeUpdateVo;
+import com.atguigu.practice.vo.resp.EmployRespVo;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.Parameters;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import org.springdoc.core.service.OperationService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * CORS policy：同源策略（限制ajax请求，图片，css,js）；跨域问题
@@ -53,6 +65,7 @@ import java.util.Map;
  * @Create 2025/5/7 9:52
  * @Version 19
  */
+@Tag(name="员工管理") //描述controller类的作用
 @CrossOrigin // 允许跨域
 @RequestMapping("/api/v1")
 @RestController// RestController = controller + responseBody(把对象写成json格式)
@@ -60,6 +73,7 @@ public class EmployeeRestController {
 
     @Autowired
     private EmployeeService employeeService;
+
 
     /**
      * code : 业务的状态码，200是成功，剩下的都是失败的状态码;前后端将来会一定商定不同的业务状态码，前端要显示不同效果。
@@ -77,16 +91,25 @@ public class EmployeeRestController {
      */
 
     /**
-     * 按照id查询员工
+     * 按照id查询员工信息
      * @param id
      * @return
      */
 //    @RequestMapping(value = "/employee/{id}",method = RequestMethod.GET)
+
+    @Parameters({
+            @Parameter(name = "id",description = "员工id",in = ParameterIn.PATH,required = true)
+    })
+    @Operation(summary="按照id查询员工信息")
     @GetMapping("/employee/{id}")
     public R get(@PathVariable("id") Long id) {
         System.out.println("查询用户。目标方法执行......");
         Employee emp = employeeService.getEmpById(id);
-        return  R.ok(emp);
+
+        EmployRespVo employRespVo = new EmployRespVo();
+        BeanUtils.copyProperties(emp, employRespVo);
+        // 进行脱敏以后返回给前端
+        return  R.ok(employRespVo);
     }
 
     /**
@@ -94,7 +117,7 @@ public class EmployeeRestController {
      * @param id
      * @return
      */
-
+    @Operation(summary="按照id删除员工信息")
     @DeleteMapping(value = "/employee/{id}")
     public R delete(@PathVariable("id") Long id) {
         employeeService.deleteEmp(id);
@@ -102,6 +125,16 @@ public class EmployeeRestController {
     }
 
     /**
+     * 设计模式：单一职责；
+     * JavaBean也要分层,各种xxO:
+     * Pojo:普通Java类
+     * Dao:Database Access Object : 专门用来访问数据库的对象
+     * DTO:Data Transfer Object: 专门用来传输数据的对象
+     * TO:transfer Object : 专门用来传输数据的对象
+     * BO:Business Object ：业务对象(Service),专门
+     * VO:View/Valie Object : 视图对象(专门用来封装前端数据的对象)/值对象()
+     *
+     *
      * 新增员工
      * 要求：前端发送请求把员工的json发在请求体中
      * 要求：如果校验出错，返回给前端。
@@ -113,12 +146,27 @@ public class EmployeeRestController {
      *         "age":"年龄不能超过150"
      *     }
      * }
-     * @param emp
+     * @param vo
      * @return
      */
+    @Operation(summary="新增员工")
     @PostMapping("/employee")
-    public R add(@RequestBody @Valid Employee emp/*,BindingResult bindingResult*/) {
-        employeeService.addEmp(emp);
+    public R add(@RequestBody @Valid EmployeeAddVo vo/*,BindingResult bindingResult*/) {
+
+        //把vo转为do；
+        Employee employee = new Employee();
+//        employee.setName(vo.getName());
+//        employee.setAge(vo.getAge());
+//        employee.setEmail(vo.getEmail());
+//        employee.setGender(vo.getGender());
+//        employee.setAddress(vo.getAddress());
+//        employee.setSalary(vo.getSalary());
+
+        // 一个一个写太麻烦，spring提供了BeanUtils.copyProperties
+        // 属性对拷
+        BeanUtils.copyProperties(vo, employee);
+
+        employeeService.addEmp(employee);
         return R.ok();
 
 //        if(!result.hasErrors()) { //校验通过
@@ -142,20 +190,43 @@ public class EmployeeRestController {
     /**
      * 修改员工
      * 要求：前端发送请求把员工的json发在请求体中
-     * @param emp
+     * @param vo
      * @return
      */
+    @Operation(summary="按照id修改员工信息")
     @PutMapping("/employee")
-    public R update(@RequestBody Employee emp) {
-        employeeService.updateEmp(emp);
+    public R update(@RequestBody @Valid EmployeeUpdateVo vo) {
+        Employee employee = new Employee();
+        BeanUtils.copyProperties(vo, employee);
+
+
+        employeeService.updateEmp(employee);
         return R.ok();
     }
 
     //语义化
+    @Operation(summary="获取所有员工信息")
     @GetMapping("/employees")
     public R all() {
         List<Employee> employees =  employeeService.getAllEmp();
-        return R.ok(employees);
+
+        //stream
+//        List<EmployRespVo> respVos = new ArrayList<>();
+//        for (Employee employee : employees) {
+//            EmployRespVo employRespVo= new EmployRespVo();
+//            BeanUtils.copyProperties(employee, employRespVo);
+//            respVos.add(employRespVo);
+//        }
+
+        // VO:脱敏，分层（分层的意思是vo里面标的数据校验的注解不影响我的数据库）
+        List<EmployRespVo> collect = employees.stream()
+                .map(employee -> {
+                    EmployRespVo vo = new EmployRespVo();
+                    BeanUtils.copyProperties(employee, vo);
+                    return vo;
+                }).collect(Collectors.toList());
+
+        return R.ok(collect);
 
     }
 }

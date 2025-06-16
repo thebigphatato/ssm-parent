@@ -55,21 +55,6 @@ public class GlobalExceptionHandler {
 //        return R.error(500,e.getMessage());
 //    }
 
-
-    @ExceptionHandler(ArithmeticException.class)
-    public R error(ArithmeticException e) {
-        System.out.println("【全局】 - ArithmeticException处理");
-        return R.error(500,e.getMessage());
-    }
-
-    @ExceptionHandler(BizException.class)
-    public R handleBizException(BizException e) {
-        Integer code = e.getCode();
-        String msg = e.getMsg();
-        return R.error(code,msg);
-
-    }
-
     @ExceptionHandler(value = MethodArgumentNotValidException.class)
     public R handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
         BindingResult result = e.getBindingResult();
@@ -84,6 +69,23 @@ public class GlobalExceptionHandler {
         }
         return R.error(500,"参数错误",errorMap);
     }
+
+    @ExceptionHandler(ArithmeticException.class)
+    public R error(ArithmeticException e) {
+        System.out.println("【全局】 - ArithmeticException处理");// 加@ResponseBody 配合 返回对象，响应错误json
+        return R.error(500,e.getMessage());
+//        return "error"; // 不加@ResponseBody 配合 返回String: 跳出错误页面
+    }
+
+    @ExceptionHandler(BizException.class)
+    public R handleBizException(BizException e) {
+        Integer code = e.getCode();
+        String msg = e.getMsg();
+        return R.error(code,msg);
+
+    }
+
+
 
     // 最终的兜底
     @ExceptionHandler(Throwable.class)
