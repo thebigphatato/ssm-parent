@@ -8,6 +8,7 @@
         select count(*)
         from t_emp
     </select>
+
     <select id="getEmpSalaryById" resultType="java.math.BigDecimal">
         select emp_salary
         from t_emp
