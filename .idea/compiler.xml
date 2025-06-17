@@ -12,19 +12,28 @@
         <module name="spring-01-ioc" />
         <module name="spring-03-tx" />
       </profile>
+      <profile name="Annotation profile for mybatis-01-helloworld" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="false">
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.38/lombok-1.18.38.jar" />
+        </processorPath>
+        <module name="mybatis-01-helloworld" />
+      </profile>
       <profile name="Annotation profile for ssm-parent" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="false">
-          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/unknown/lombok-unknown.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.36/lombok-1.18.36.jar" />
         </processorPath>
-        <module name="spring-02-aop" />
         <module name="springmvc-01-helloworld" />
-        <module name="mybatis-01-helloworld" />
+        <module name="spring-02-aop" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="mybatis-01-helloword" target="17" />
       <module name="mybatis-01-helloword01" target="17" />
       <module name="mybatis-01-helloword01 (1)" target="17" />
       <module name="untitled" target="19" />
