@@ -26,6 +26,14 @@ public class StepTest {
     @Autowired
     OrderCustomerStepMapper orderCustomerStepMapper;
 
+    @Test
+    void testStep03() {
+        Order order = orderCustomerStepMapper.getOrderByIdAndCustomerStep(1L);
+        System.out.println("order = " + order);
+    }
+
+
+
     //MyBatis 自动分布查询机制：自动调用
     @Test
     void testStep02() {

@@ -27,10 +27,24 @@ public interface OrderCustomerStepMapper {
 
     // 3、封装客户和订单
 
-    //1、分布查询，查询客户 + 查询客户下的订单
+
+
+    // 分步查询
+    //1、分步查询，查询客户 + 查询客户下的订单
+    /**
+     *
+     * @param id 客户id
+     * @return
+     */
     Customer getCustomerByIdAndOrdersStep(Long id);
 
-
+    /**
+     *
+     * @param id 订单id
+     * @return
+     */
+    //2、分步查询：自动做两步 = 按照id查询订单 + 查询下单的客户
+    Order getOrderByIdAndCustomerStep(Long id);
 
 
 

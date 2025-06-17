@@ -38,4 +38,22 @@
         where id = #{id}
     </select>
 
+<!--    分步查询：自定义结果集：封装订单的分步查询  -->
+    <resultMap id="OrderCustomerStepRM" type="com.atguigu.mybatis.bean.Order">
+        <id column="id" property="id"></id>
+        <result column="address" property="address"></result>
+        <result column="amount" property="amount"></result>
+        <result column="customer_id" property="customerId"></result>
+<!--        customer属性关联一个对象，启动下一次查询，查询这个客户-->
+        <association property="customer"
+                     select="com.atguigu.mybatis.mapper.OrderCustomerStepMapper.getCustomerById"
+                     column="customer_id">
+
+        </association>
+    </resultMap>
+
+    <select id="getOrderByIdAndCustomerStep" resultMap="OrderCustomerStepRM">
+        select * from t_order where id = #{id}
+    </select>
+
 </mapper>
