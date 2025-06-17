@@ -9,8 +9,14 @@
         <result column="customer_name" property="customerName"></result>
         <result column="phone" property="phone"></result>
 <!--
-collection：说明 一对N 的封装规则
+collection：说明 一对N 的封装规则    collection中写那个“多”所对应的表
 ofType: 集合中元素的类型
+
+而一对一的封装是 association javaType
+
+唯一字段用id封装，哪怕不是主键，普通字段用result封装
+
+
 -->
         <collection property="orders" ofType="com.atguigu.mybatis.bean.Order">
             <id column="id" property="id"></id>
@@ -30,4 +36,12 @@ ofType: 集合中元素的类型
                  left join t_order o on c.id = o.customer_id
         where c.id = #{id}
     </select>
+
+
 </mapper>
+
+
+
+
+
+

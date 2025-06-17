@@ -43,7 +43,7 @@
     </resultMap>
 
     <!-- resultMap：指定自定义映射规则   -->
-    <select id="getEmpById" resultMap="EmpRM">
+     <select id="getEmpById" resultMap="EmpRM">
         select *
         from t_emp
         where id = #{id}

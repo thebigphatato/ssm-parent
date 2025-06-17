@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.math.BigDecimal;
+import java.net.SocketTimeoutException;
 import java.util.List;
 import java.util.Map;
 
@@ -24,6 +25,12 @@ public class ReturnValueTest {
 
     @Autowired
     EmpReturnValueMapper empReturnValueMapper;
+
+    @Test
+    void test02() {
+        Emp empById = empReturnValueMapper.getEmpById(1);
+        System.out.println("empById=" + empById);
+    }
 
     @Test
     void test01() {
