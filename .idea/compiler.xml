@@ -17,28 +17,24 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="false">
-          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.36/lombok-1.18.36.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/unknown/lombok-unknown.jar" />
         </processorPath>
         <module name="spring-02-aop" />
         <module name="springmvc-01-helloworld" />
-      </profile>
-      <profile name="Annotation profile for mybatis-01-helloword" enabled="true">
-        <sourceOutputDir name="target/generated-sources/annotations" />
-        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
-        <outputRelativeToContentRoot value="true" />
-        <processorPath useClasspath="false">
-          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.38/lombok-1.18.38.jar" />
-        </processorPath>
-        <module name="mybatis-01-helloword" />
+        <module name="mybatis-01-helloworld" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="mybatis-01-helloword01" target="17" />
+      <module name="mybatis-01-helloword01 (1)" target="17" />
       <module name="untitled" target="19" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
-      <module name="mybatis-01-helloword" options="-parameters" />
+      <module name="mybatis-01-helloword01" options="-parameters" />
+      <module name="mybatis-01-helloword01 (1)" options="-parameters" />
+      <module name="mybatis-01-helloworld" options="-parameters" />
       <module name="spring-01-ioc" options="-parameters" />
       <module name="spring-02-aop" options="-parameters" />
       <module name="spring-03-tx" options="-parameters" />
