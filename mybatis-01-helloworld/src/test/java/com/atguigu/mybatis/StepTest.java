@@ -2,6 +2,7 @@ package com.atguigu.mybatis;
 
 import com.atguigu.mybatis.bean.Customer;
 import com.atguigu.mybatis.bean.Order;
+import com.atguigu.mybatis.mapper.CustomerMapper;
 import com.atguigu.mybatis.mapper.OrderCustomerStepMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,39 @@ public class StepTest {
 
     @Autowired
     OrderCustomerStepMapper orderCustomerStepMapper;
+
+    @Autowired
+    CustomerMapper customerMapper;
+
+    @Test
+    void test06() {
+        List<Customer> allCustomersWithOrders = customerMapper.getAllCustomersWithOrders();
+        allCustomersWithOrders.forEach(System.out::println);
+//        for (Customer customer : allCustomersWithOrders) {
+//            System.out.println(customer);
+//        }
+    }
+
+    @Test
+    void test05() throws InterruptedException {
+        Order order  = orderCustomerStepMapper.getOrderByIdAndCustomerStep(1L);
+        System.out.println("order = " + order.getAmount());
+        System.out.println("======================================");
+
+        Thread.sleep(3000);
+
+        //用到客户信息了，才会继续发送分步查询sql
+        Customer customer = order.getCustomer();
+        System.out.println("customer = " + customer.getCustomerName()  );
+    }
+
+
+
+    @Test
+    void testStep04(){
+        Order order = orderCustomerStepMapper.getOrderByIdAndCustomerAndOtherOrdersStep(1L);
+        System.out.println("order = " + order);
+    }
 
     @Test
     void testStep03() {

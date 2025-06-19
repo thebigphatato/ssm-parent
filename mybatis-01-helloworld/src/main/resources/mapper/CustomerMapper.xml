@@ -13,6 +13,7 @@ collection：说明 一对N 的封装规则    collection中写那个“多”�
 ofType: 集合中元素的类型
 
 而一对一的封装是 association javaType
+多对多的封装也是用collection ,ofType
 
 唯一字段用id封装，哪怕不是主键，普通字段用result封装
 
@@ -35,6 +36,12 @@ ofType: 集合中元素的类型
         from t_customer c
                  left join t_order o on c.id = o.customer_id
         where c.id = #{id}
+    </select>
+
+    <!-- 查询所有客户所有订单，现在是多对多的问题 -->
+    <select id="getAllCustomersWithOrders"
+            resultMap="com.atguigu.mybatis.mapper.OrderCustomerStepMapper.CustomerOrdersStepRM">
+        select * from t_customer
     </select>
 
 

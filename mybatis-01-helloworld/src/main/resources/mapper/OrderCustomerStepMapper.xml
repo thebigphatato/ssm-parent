@@ -3,7 +3,7 @@
 <mapper namespace="com.atguigu.mybatis.mapper.OrderCustomerStepMapper">
 
 <!--按照id查询客户-->
-    <select id="getCustomerById" resultType="com.atguigu.mybatis.bean.Customer">
+    <select id="getCustomerById" resultMap="CustomerOrdersStepRM">
         select * from t_customer where id = #{id}
     </select>
 
@@ -17,18 +17,21 @@
         <id column="id" property="id"></id>
         <result column="customer_name" property="customerName"></result>
         <result column="phone" property="phone"></result>
-<!--        告诉MyBatis,封装orders属性的时候，是一个集合，
-            但是这个集合需要调用另一个方法 进行查询： select: 来指定我们要调用的另一个方法
-            column:来指定我们要调用方法时，把哪一列的值作为传递的参数，交给这个方法
-                1、column="id"：id传递给方法    单个参数情况
-                2、column="{cid=id,name=customer_name}, 多传参：cid传递给方法，name传递给方法
--->
         <collection
                 property="orders"
                 ofType="com.atguigu.mybatis.bean.Order"
                 select="com.atguigu.mybatis.mapper.OrderCustomerStepMapper.getOrdersByCustomerId"
                 column="id">
         </collection>
+
+        <!--        告诉MyBatis,封装orders属性的时候，是一个集合，
+                    但是这个集合需要调用另一个方法 进行查询： select: 来指定我们要调用的另一个方法
+                    column:来指定我们要调用方法时，把哪一列的值作为传递的参数，交给这个方法
+                        1、column="id"：id传递给方法    单个参数情况
+                        2、column="{cid=id,name=customer_name}, 多传参：cid传递给方法，name传递给方法
+                        单个参数的时候,column传进去的是数据库对应那一列的字段的名称，这个时候就不用写方法中的参数名称了
+                        后面的是数据库，前面的是方法的参数
+        -->
 
     </resultMap>
 
@@ -53,6 +56,11 @@
     </resultMap>
 
     <select id="getOrderByIdAndCustomerStep" resultMap="OrderCustomerStepRM">
+        select * from t_order where id = #{id}
+    </select>
+
+<!--    查询订单 + 下单的客户 + 客户的其他所有订单-->
+    <select id="getOrderByIdAndCustomerAndOtherOrdersStep" resultMap="OrderCustomerStepRM">
         select * from t_order where id = #{id}
     </select>
 

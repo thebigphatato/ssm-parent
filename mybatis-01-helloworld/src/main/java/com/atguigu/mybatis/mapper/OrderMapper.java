@@ -2,15 +2,18 @@ package com.atguigu.mybatis.mapper;
 
 import com.atguigu.mybatis.bean.Order;
 import org.apache.ibatis.annotations.Mapper;
-
 /**
- * ClassName: OrderMapper
- * Package: com.atguigu.mybatis.mapper
- * Description:
+ * <!--
+ * collection：说明 一对N 的封装规则    collection中写那个“多”所对应的表
+ * ofType: 集合中元素的类型
  *
- * @Author the big potato
- * @Create 2025/6/17 15:17
- * @Version 19
+ * 而一对一的封装是 association javaType
+ * 多对多的封装也是用collection ,ofType
+ *
+ * 唯一字段用id封装，哪怕不是主键，普通字段用result封装
+ *
+ *
+ * -->
  */
 
 @Mapper
