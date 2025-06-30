@@ -90,8 +90,8 @@ public class GlobalExceptionHandler {
     // 最终的兜底
     @ExceptionHandler(Throwable.class)
     public R error(Throwable e) {
-        System.out.println("【全局】 - Throwable处理" + e.getClass());
-
+        System.out.println("【全局】 - Throwable处理:" + e.getClass());
+        e.printStackTrace();
         return R.error(500,e.getMessage());
     }
 

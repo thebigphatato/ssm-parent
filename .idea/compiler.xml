@@ -11,6 +11,7 @@
         <module name="springmvc-restful-crud" />
         <module name="spring-01-ioc" />
         <module name="spring-03-tx" />
+        <module name="springboot-01-demo" />
       </profile>
       <profile name="Annotation profile for ssm-parent" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
@@ -20,6 +21,7 @@
           <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/unknown/lombok-unknown.jar" />
         </processorPath>
         <module name="spring-02-aop" />
+        <module name="springmvc-01-helloworld" />
         <module name="mybatis-01-helloworld" />
       </profile>
     </annotationProcessing>
@@ -38,6 +40,7 @@
       <module name="spring-01-ioc" options="-parameters" />
       <module name="spring-02-aop" options="-parameters" />
       <module name="spring-03-tx" options="-parameters" />
+      <module name="springboot-01-demo" options="-parameters" />
       <module name="springmvc-01-helloworld" options="-parameters" />
       <module name="springmvc-02-best-practice" options="-parameters" />
       <module name="springmvc-restful-crud" options="-parameters" />

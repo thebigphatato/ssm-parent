@@ -61,8 +61,12 @@ class Spring03TxApplicationTests {
 
     @Test
     void contextLoads() throws SQLException {
+
+        System.out.println("dataSource = " + dataSource);
+        // HikariDataSource
+        // DruidDataSource
         Connection connection = dataSource.getConnection();
-        System.out.println(connection.getClass());
+        System.out.println(connection);
 
 //        jdbcTemplate.
     }

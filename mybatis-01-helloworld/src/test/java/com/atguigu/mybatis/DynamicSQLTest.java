@@ -2,6 +2,7 @@ package com.atguigu.mybatis;
 
 import com.atguigu.mybatis.bean.Emp;
 import com.atguigu.mybatis.mapper.EmpDynamicSQLMapper;
+import com.atguigu.mybatis.service.EmpService;
 import org.apache.ibatis.jdbc.AbstractSQL;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,18 +31,43 @@ import java.util.List;
  */
 @SpringBootTest
 public class DynamicSQLTest {
+
     @Autowired
     EmpDynamicSQLMapper empDynamicSQLMapper;
 
+    @Autowired
+    EmpService empService;
+
+    @Test
+    void test09() {
+        empDynamicSQLMapper.getEmpsByIdIn(Arrays.asList(1,2,3));
+    }
+
+    // 分布式项目情况下，分布式事务很多不支持多SQL批量操作的回滚
+    @Test
+    void test08() {
+        List<Emp> emps = new ArrayList<>();
+        for (int i = 0; i < 100; i++) {
+            Emp emp = new Emp();
+            emp.setId(226+i);
+            emp.setEmpName("张-"+100+i);
+            emp.setAge(100+i);
+            emp.setEmpSalary(90000.0D+i);
+            emps.add(emp);
+        }
+        empService.updateBatch(emps);
+        System.out.println("批量更新完成");
+    }
+
 
     // test05-07都是讲foreach标签
-    @Test
-    void test07(){
-        for (int i = 0; i < 100; i++) {
-            empDynamicSQLMapper.updateEmp(new Emp());
-        }
-
-    }
+//    @Test
+//    void test07(){
+//        for (int i = 0; i < 100; i++) {
+//            empDynamicSQLMapper.updateEmp(new Emp());
+//        }
+//
+//    }
 
     //一口气发一堆SQL效率最高。但要主要有事务问题，这个比test07的效率高
     @Test
@@ -67,6 +93,19 @@ public class DynamicSQLTest {
 
         empDynamicSQLMapper.updateBatchEmp(emps);
     }
+
+//    @Test
+//    void test051(){
+//        List<Emp> emps = new ArrayList<>();
+//        for (int i = 0; i < 1; i++) {
+//            Emp emp = new Emp();
+//            emp.setAge(i);
+//            emp.setEmpSalary(0.000D);
+//            emp.setEmpName("zs");
+//            emps.add(emp);
+//        }
+//        empDynamicSQLMapper.addEmps(emps);
+//    }
 
     @Test
     void test05(){

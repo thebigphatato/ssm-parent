@@ -2,7 +2,12 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.atguigu.mybatis.mapper.EmpMapper">
 
+<!--    所有的查询都会共享到二级缓存 -->
 
+<!--    redis：缓存中间件-->
+<!--    下面这行代码代表打开二级缓存-->
+    <cache/>
+ 
     <!-- namespace: 编写mapper接口的全类名，代表，这个xml文件和这个mapper接口进行绑定   -->
 
 
@@ -27,7 +32,7 @@ select 标签代表一次查询
         keyProperty： 指定自动生成id对应的属性； 把自动生成的id封装到Emp对象的id属性中
         自增id回填
       -->
-    <insert id="addEmp" useGeneratedKeys="true" keyProperty="id">
+    <insert id="addEmp" useGeneratedKeys="false" keyProperty="id">
         insert into t_emp(emp_name, age, emp_salary) values (#{empName},#{age},#{empSalary})
     </insert>
 
